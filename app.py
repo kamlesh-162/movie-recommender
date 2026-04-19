@@ -37,10 +37,20 @@ h1 {
 """, unsafe_allow_html=True)
 
 # Load data
-with open('movie_data.pkl', 'rb') as file:
-    movies, cosine_sim = pickle.load(file)
-#8c456926fa1178ea06085085e59ba0f2
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
+movies = pd.read_csv("movies.csv")
+
+# simple example (adjust based on your project)
+movies['tags'] = movies['overview'].fillna('')
+
+tfidf = TfidfVectorizer(stop_words='english')
+tfidf_matrix = tfidf.fit_transform(movies['tags'])
+
+cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
+#8c456926fa1178ea06085085e59ba0f2
 # Recommendation function
 def get_recommendations(title):
     idx = movies[movies['title'] == title].index[0]
