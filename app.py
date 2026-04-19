@@ -37,12 +37,11 @@ h1 {
 """, unsafe_allow_html=True)
 
 # Load data
-import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 movies = pd.read_csv("movies.csv")
-
+movies = movies[['id', 'title', 'overview']]
 # simple example (adjust based on your project)
 movies['tags'] = movies['overview'].fillna('')
 
@@ -51,6 +50,7 @@ tfidf_matrix = tfidf.fit_transform(movies['tags'])
 
 cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
 #8c456926fa1178ea06085085e59ba0f2
+
 # Recommendation function
 def get_recommendations(title):
     idx = movies[movies['title'] == title].index[0]
@@ -66,8 +66,9 @@ def get_recommendations(title):
 # Fetch poster using TITLE (better accuracy)
 def fetch_movie_data(movie_title):
     try:
-        api_key = '8c456926fa1178ea06085085e59ba0f2'  # 👈 your key
-
+        import os
+        api_key = os.getenv("API_KEY")
+        
         url = f"https://api.themoviedb.org/3/search/movie?api_key={api_key}&query={movie_title}"
         
         response = requests.get(url, timeout=5)
@@ -91,7 +92,8 @@ def fetch_movie_data(movie_title):
     
 def fetch_trailer(movie_title):
     try:
-        api_key = '8c456926fa1178ea06085085e59ba0f2'
+        import os
+        api_key = os.getenv("API_KEY")
 
         # Step 1: Search movie
         search_url = f"https://api.themoviedb.org/3/search/movie?api_key={api_key}&query={movie_title}"
