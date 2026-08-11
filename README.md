@@ -20,4 +20,4 @@ This project is a content-based Movie Recommendation System built using Python a
 The system uses content-based filtering by analyzing movie tags and computing similarity using cosine similarity. Based on user selection, it recommends similar movies.
 
 🌐 Live Demo:
-(Add your Streamlit link here after deployment)
+(https://movie-recommender-gspysagwtxptgvrae6zuqh.streamlit.app/)
